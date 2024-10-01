@@ -44,6 +44,13 @@ jobs:
           sudo mv heighliner /usr/local/bin
           cd .. && rm -rf heighliner
 
+      # TODO: this is temp for fast iterate
+      # docker save myproject:local | gzip > myproject.tar.gz
+      - name: Load Docker Image
+        run: |
+          docker image load -i myproject.tar.gz
+          docker image ls -a
+
       - name: Build + Run Testnet
         run: |
           killall local-ic || true
@@ -51,7 +58,7 @@ jobs:
 
           export PATH=$PATH:/usr/local/go/bin
 
-          make local-image
+          # make local-image # TODO: to make it faster, just loading in the raw tar
 
           sudo screen -S testnet-${{ github.ref_name }} -d -m local-ic start testnet --api-address=0.0.0.0 --api-port=${{ env.LOCALIC_PORT }} --auth-key=${{ env.LOCALIC_AUTH_KEY }}
 

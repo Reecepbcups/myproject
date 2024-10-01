@@ -51,6 +51,9 @@ jobs:
           docker image load -i myproject.tar.gz
           docker image ls -a
 
+      - name: 🔎 Check IP
+        run: curl https://api.ipify.org
+
       - name: Build + Run Testnet
         run: |
           killall local-ic || true
@@ -60,13 +63,14 @@ jobs:
 
           # make local-image # TODO: to make it faster, just loading in the raw tar
 
+          # print current ip
+          curl ifconfig.me
+
           sudo screen -S testnet-${{ github.ref_name }} -d -m local-ic start testnet --api-address=0.0.0.0 --api-port=${{ env.LOCALIC_PORT }} --auth-key=${{ env.LOCALIC_AUTH_KEY }}
 
           # Add other commands here you perform for setup once local-ic has started (poll on LOCALIC_PORT) such as contract upload.
 
-          # print current ip
-          curl ifconfig.me
-
           # infinite wait
+          echo "Waiting for infinity"
           sleep infinity
 

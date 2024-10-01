@@ -57,3 +57,9 @@ jobs:
 
           # Add other commands here you perform for setup once local-ic has started (poll on LOCALIC_PORT) such as contract upload.
 
+          # print current ip
+          curl ifconfig.me
+
+          # infinite wait
+          sleep infinity
+
